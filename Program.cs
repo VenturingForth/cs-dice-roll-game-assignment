@@ -3,6 +3,7 @@ var dice = new Dice(random);
 var guessingGame = new GuessingGame(dice);
 
 GameResult gameResult = guessingGame.Play();
+guessingGame.PrintResult(gameResult);
 
 Console.ReadKey();
 
@@ -27,12 +28,20 @@ public class GuessingGame
             int guess = ConsoleInterface.ReadInteger("Enter a number:");
             if (guess == diceRollResult)
             {
-                return GameResult.Victory
+                return GameResult.Victory;
             }
             Console.WriteLine("Wrong number.");
             --triesLeft;
         }
         return GameResult.Loss;
+    }
+
+    public static void PrintResult(GameResult gameResult)
+    {
+        string message = gameResult == GameResult.Victory
+            ? "You win"
+            : "You lose :(";
+        Console.WriteLine(message);
     }
 }
 
@@ -46,11 +55,12 @@ public static class ConsoleInterface
 {
     public static int ReadInteger(string message)
     {
+        int result;
         do
         {
             Console.WriteLine(message);
         }
-        while (!int.TryParse(Console.ReadLine(), out int result));
+        while (!int.TryParse(Console.ReadLine(), out result));
         return result;
     }
 }
